@@ -37,5 +37,10 @@ namespace ConsoleApp
             Console.WriteLine("Release Demo");
             Console.WriteLine("Title Error");
         }
+
+        private static void TP03()
+        {
+            Console.WriteLine("This is a test 03 demo");
+        }
     }
 }
