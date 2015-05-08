@@ -31,5 +31,10 @@ namespace ConsoleApp
 
             Console.WriteLine("Main Thread");
         }
+
+        private static void ReleaseDemo()
+        {
+            Console.WriteLine("Release Demo");
+        }
     }
 }
