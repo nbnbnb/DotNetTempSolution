@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConsoleApp
@@ -18,7 +19,17 @@ namespace ConsoleApp
 
         private static void Temp()
         {
+            
+        }
 
+        private static void ThreadDemo()
+        {
+            Task.Run(() => {
+                Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+                Console.WriteLine("Task Thread.");
+            });
+
+            Console.WriteLine("Main Thread");
         }
     }
 }
