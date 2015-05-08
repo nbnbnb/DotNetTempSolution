@@ -35,6 +35,7 @@ namespace ConsoleApp
         private static void ReleaseDemo()
         {
             Console.WriteLine("Release Demo");
+            Console.WriteLine("Title Error");
         }
     }
 }
