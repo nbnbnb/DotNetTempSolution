@@ -1,9 +1,16 @@
-﻿using System;
+﻿using ConsoleApp.Demos;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ConsoleApp
 {
@@ -19,23 +26,7 @@ namespace ConsoleApp
 
         private static void Temp()
         {
-            
-        }
-
-        private static void ThreadDemo()
-        {
-            Task.Run(() => {
-                Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-                Console.WriteLine("Task Thread.");
-            });
-
-            Console.WriteLine("Main Thread");
-        }
-
-        private static void ReleaseDemo()
-        {
-            Console.WriteLine("Release Demo");
-            Console.WriteLine("Title Error");
+            ExpressionTree.Start();            
         }
     }
 }
