@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp.Demos;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -25,9 +26,7 @@ namespace ConsoleApp
 
         private static void Temp()
         {
-
+            ExpressionTree.Start();            
         }
-
     }
-
 }
