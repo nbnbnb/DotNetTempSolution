@@ -26,7 +26,7 @@ namespace ConsoleApp
 
         private static void Temp()
         {
-            ExpressionTree.Start();            
+            ExpressionTree.Start();
         }
     }
 }
