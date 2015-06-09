@@ -157,3 +157,6 @@ $RECYCLE.BIN/
 
 # Beyond Compare 临时文件
 *.orig
+
+# Nuget 目录
+packages/
