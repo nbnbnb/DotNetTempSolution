@@ -177,5 +177,210 @@ namespace ConsoleApp.Demos
 
             Console.WriteLine(modifiedExpr); // name => ((name.Length > 10) || name.StartsWith("G"))
         }
+
+        /// <summary>
+        /// 一个复杂的表达式生成实例
+        /// </summary>
+        private static void Demo07()
+        {
+            // 原型
+            /*
+            Func<int, List<int>> getPrimes_Origin = to_para =>
+             {
+                 var res_para = new List<int>();
+                 for (int n = 2; n <= to_para; n++)
+                 {
+                     bool found = false;
+
+                     for (int d = 2; d <= Math.Sqrt(n); d++)
+                     {
+                         if (n % d == 0)
+                         {
+                             found = true;
+                             break;
+                         }
+                     }
+
+                     if (!found)
+                         res_para.Add(n);
+                 }
+                 return res_para;
+             };
+
+            foreach (var num in getPrimes_Origin(100))
+                Console.WriteLine(num);
+
+            
+             * 基本循环语句
+             * for (initializer; condition; update) 
+                   body
+             * 
+             * 等价于下面的语句
+                { 
+                    initializer; 
+                    while (condition) 
+                    { 
+                        body; 
+                        continueLabel: 
+                        update; 
+                    } 
+                    breakLabel: 
+                }
+             * 
+             * 在表达式树中没有终止循环条件，所以需要使用标签跳转的方式
+                { 
+                    initializer; 
+                    while (true) 
+                    { 
+                        if (!condition) 
+                            goto breakLabel; 
+                        body; 
+                        continueLabel: 
+                        update; 
+                    } 
+                        breakLabel: 
+                }
+             * */
+
+            // 这是输入 lambda 的两个表达式
+            var to = Expression.Parameter(typeof(int), "to");
+            var res = Expression.Variable(typeof(List<int>), "res");
+
+            // 循环中使用到的参数
+            var n = Expression.Variable(typeof(int), "n");
+            var found = Expression.Variable(typeof(bool), "found");
+            var d = Expression.Variable(typeof(int), "d");
+            var breakOuter = Expression.Label();
+            var breakInner = Expression.Label();
+
+
+            var getPrimes =
+                // Func<int,List<int>> getPrimes
+                Expression.Lambda<Func<int, List<int>>>(
+                // {
+                    Expression.Block(
+                // List<int> res;
+                        new[] { res },
+                // res=new List<int>;
+                        Expression.Assign(
+                            res,
+                            Expression.New(typeof(List<int>))
+                        ),
+                // {
+                        Expression.Block(
+                // int n
+                            new[] { n },
+                // n=2
+                            Expression.Assign(
+                                n,
+                                Expression.Constant(2)
+                            ),
+                // while(True)
+                            Expression.Loop(
+                // {
+                                Expression.Block(
+                // if
+                                    Expression.IfThen(
+                // (!
+                                        Expression.Not(
+                // (n<=to)
+                                            Expression.LessThanOrEqual(
+                                                n,
+                                                to
+                                            )
+                                        ),
+                // break
+                                        Expression.Break(breakOuter)
+                                    ),
+                                    Expression.Block(
+                // bool found;
+                                        new[] { found },
+                // found=false;
+                                        Expression.Assign(
+                                            found,
+                                            Expression.Constant(false)
+                                        ),
+                // {
+                                        Expression.Block(
+                // int d;
+                                            new[] { d },
+                                            Expression.Assign(
+                                                d,
+                                                Expression.Constant(2)
+                                            ),
+                                            Expression.Loop(
+                // {
+                                                Expression.Block(
+                // if
+                                                    Expression.IfThen(
+                // (!
+                                                        Expression.Not(
+                // d<=Math.Sqrt(n)
+                                                            Expression.LessThanOrEqual(
+                                                                d,
+                                                                Expression.Convert(
+                                                                    Expression.Call(
+                                                                        null,
+                                                                        typeof(Math).GetMethod("Sqrt"),
+                                                                        Expression.Convert(
+                                                                            n,
+                                                                            typeof(double)
+                                                                        )
+                                                                    ),
+                                                                    typeof(int)
+                                                                )
+                                                            )
+                                                        ),
+                // break
+                                                       Expression.Break(breakInner)
+                                                    ),
+                                                    Expression.Block(
+                // if(n%d==0)
+                                                        Expression.IfThen(
+                                                            Expression.Equal(
+                                                                Expression.Modulo(
+                                                                    n,
+                                                                    d
+                                                                ),
+                                                                Expression.Constant(0)
+                                                            ),
+                                                            Expression.Block(
+                // found=true;
+                                                                Expression.Assign(
+                                                                    found,
+                                                                    Expression.Constant(true)
+                                                                ),
+                // break
+                                                                Expression.Break(breakInner)
+                                                            )
+                                                        )
+                                                    ),
+                // d++
+                                                    Expression.PostIncrementAssign(d)
+                                                ),
+                                                breakInner
+                                            )
+                                        ),
+                                        Expression.IfThen(
+                // (!found)
+                                            Expression.Not(found),
+                                            Expression.Call(
+                                                res,
+                                                typeof(List<int>).GetMethod("Add"),
+                                                n
+                                            )
+                                        )
+                                    ),
+                // n++
+                                    Expression.PostIncrementAssign(n)
+                                ),
+                                breakOuter
+                            )
+                        ),
+                        res
+                    ),
+                    to
+                ).Compile();
+        }
     }
 }
