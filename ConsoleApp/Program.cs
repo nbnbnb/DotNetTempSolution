@@ -28,6 +28,7 @@ namespace ConsoleApp
         {
             ExpressionTree.Start();
             Console.WriteLine("A01");
+            Console.WriteLine("A02");
         }
     }
 }
