@@ -13,7 +13,7 @@ namespace ConsoleApp.Demos
     {
         public static void Start()
         {
-            Demo06();
+            Demo08();
         }
 
         /// <summary>
@@ -382,6 +382,58 @@ namespace ConsoleApp.Demos
                     ),
                     to
                 ).Compile();
+        }
+
+        /// <summary>
+        /// 一个 for(int i=0;i<100;i++) 的例子
+        /// </summary>
+        private static void Demo08()
+        {
+            // 这是传递给 lambda 的参数
+            var to = Expression.Variable(typeof(int), "to");
+
+            // 这是两个 Block 中使用的参数
+            // 需要在 Block 中通过 new[]{ param } 的形式进行定义
+            var res = Expression.Variable(typeof(List<int>), "res");
+            var i = Expression.Variable(typeof(int), "i");
+
+            var breakLabel = Expression.Label(typeof(List<int>));
+
+            var getPrimes =
+                // Func<int, List<int>> getPrimes =
+                Expression.Lambda<Func<int, List<int>>>(
+                // {
+                    Expression.Block(
+                // List<int> res;
+                        new[] { res },
+                // res = new List<int>();
+                        Expression.Assign(
+                            res,
+                            Expression.New(typeof(List<int>))
+                        ),
+                        Expression.Loop(
+                            Expression.Block(
+                                new[] { i },
+                                Expression.PostIncrementAssign(i),
+                                Expression.IfThenElse(
+                                    Expression.LessThanOrEqual(i, to),
+                                    Expression.Block(
+                                        Expression.Call(res, typeof(List<int>).GetMethod("Add"), i)
+                                    ),
+                                    Expression.Break(breakLabel, res)
+                                )
+                            ),
+                            breakLabel
+                        )
+                    ),
+                    to
+                // }
+                ).Compile();
+
+            foreach (var num in getPrimes(100))
+            {
+                Console.WriteLine(num);
+            }
         }
     }
 }
