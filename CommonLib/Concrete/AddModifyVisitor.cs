@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp.Demos
+namespace CommonLib.Concrete
 {
     /// <summary>
     /// 将 AndAlso 转换为 OrElse

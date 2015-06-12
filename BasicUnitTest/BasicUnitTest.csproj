@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -51,6 +54,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CycleCalcHelperTest.cs" />
+    <Compile Include="DynamicMethodExecutorTest.cs" />
+    <Compile Include="DynamicPropertyAccessorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +63,9 @@
       <Project>{56aa287e-1a73-449b-9c10-6791b2a9d55b}</Project>
       <Name>CommonLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

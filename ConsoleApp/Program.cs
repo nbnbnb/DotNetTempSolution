@@ -26,7 +26,11 @@ namespace ConsoleApp
 
         private static void Temp()
         {
-            ExpressionTree.Start();
+            //ExpressionTree.Start();
+
+            DateTime checkDate = new DateTime(2012, 2, 28);
+            Console.WriteLine(checkDate.AddMonths(-1));
+
         }
     }
 }
