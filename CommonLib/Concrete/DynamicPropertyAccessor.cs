@@ -16,6 +16,8 @@ namespace CommonLib.Concrete
 
         private Func<object, object> _getter;
 
+        private DynamicMethodExecutor _setter;
+
         public DynamicPropertyAccessor(Type type, string propertyName)
             : this(type.GetProperty(propertyName))
         {
@@ -41,11 +43,27 @@ namespace CommonLib.Concrete
             Expression<Func<object, object>> lambda = Expression.Lambda<Func<object, object>>(castPropertyValue, instanceExpression);
 
             _getter = lambda.Compile();
+
+            MethodInfo setMethod = methodInfo.GetSetMethod();
+            if (null != setMethod)
+            {
+                _setter = new DynamicMethodExecutor(setMethod);
+            }
+
         }
 
         public object GetValue(object obj)
         {
             return _getter(obj);
+        }
+
+        public void SetValue(object obj, object value)
+        {
+            if (_setter == null)
+            {
+                throw new NotSupportedException("Can not set the property");
+            }
+            _setter.Execute(obj, new object[] { value });
         }
     }
 }
