@@ -20,6 +20,9 @@ namespace CommonLib.Concrete
             this._execute = this.GetExecuteDelegate(methodInfo);
         }
 
+        public DynamicMethodExecutor(Type type, string methodName) :
+            this(type.GetMethod(methodName)) { }
+
         public object Execute(object instance, object[] parameters)
         {
             return this._execute(instance, parameters);

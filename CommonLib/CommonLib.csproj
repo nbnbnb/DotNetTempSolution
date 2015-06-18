@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Concrete\AddModifyVisitor.cs" />
     <Compile Include="Concrete\DynamicMethodExecutor.cs" />
+    <Compile Include="Concrete\DynamicMethodExecutorCache.cs" />
     <Compile Include="Concrete\DynamicPropertyAccessor.cs" />
     <Compile Include="Concrete\DynamicPropertyAccessorCache.cs" />
     <Compile Include="Entities\Batch.cs" />
