@@ -26,9 +26,68 @@ namespace ConsoleApp
 
         private static void Temp()
         {
-            ExpressionTree.Start();
-            Console.WriteLine("A01");
-            Console.WriteLine("A02");
+            //ExpressionTree.Start();
+
+            Demo();
         }
+
+        #region Demo
+        private static void Demo()
+        {
+
+            var accessor = new DynamiePropertyAccessor<String>(typeof(UserName), "Name");
+
+            UserName zhangjin = new UserName
+            {
+                Name = "ZhangJin"
+            };
+
+            string name = accessor.Execute(zhangjin);
+
+            Console.WriteLine(name);
+        }
+
+        private class UserName
+        {
+            public string Name { get; set; }
+        }
+
+        private class DynamiePropertyAccessor<T>
+        {
+            private Func<object, T> _getter;
+
+            public DynamiePropertyAccessor(Type type, string propertyName)
+                : this(type.GetProperty(propertyName))
+            {
+
+            }
+
+            public DynamiePropertyAccessor(PropertyInfo propertyInfo)
+            {
+
+                // 需要实现的原型为 ((T)instance).Property
+
+                // 首先定义 lambda 的参数
+                ParameterExpression instanceParam = Expression.Parameter(typeof(object), "instance");
+
+                // 生成转型代码
+                // (T)instance
+                UnaryExpression instanceCast = Expression.Convert(instanceParam, propertyInfo.DeclaringType);
+
+                // 读取属性
+                MemberExpression propertyValue = Expression.Property(instanceCast, propertyInfo);
+
+                // 生成复合委托类型的代码
+                UnaryExpression propertyValueCast = Expression.Convert(propertyValue, typeof(T));
+
+                _getter = Expression.Lambda<Func<object, T>>(propertyValueCast, instanceParam).Compile();
+            }
+
+            public T Execute(object obj)
+            {
+                return _getter(obj);
+            }
+        }
+        #endregion
     }
 }
