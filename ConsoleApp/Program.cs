@@ -27,8 +27,8 @@ namespace ConsoleApp
         private static void Temp()
         {
             //ExpressionTree.Start();
-
-            Demo();
+            DynamicQueryFeatures.MiscDemo();
+            //Demo();
         }
 
         #region Demo
