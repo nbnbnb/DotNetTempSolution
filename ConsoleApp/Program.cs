@@ -39,6 +39,7 @@ namespace ConsoleApp
 			Console.WriteLine("This is a feature output");
 
             Console.WriteLine('bugfix');
+            Console.WriteLine("main");
         }
         #endregion
     }
