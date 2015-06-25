@@ -35,7 +35,8 @@ namespace ConsoleApp
         #region Demo
         private static void Demo()
         {
-            Console.WriteLine("bugfix");
+            Console.WriteLine("main");
+			Console.WriteLine("bugfix");
         }
         #endregion
     }
