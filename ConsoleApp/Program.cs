@@ -38,6 +38,7 @@ namespace ConsoleApp
             Console.WriteLine("This is a develop output");
 			Console.WriteLine("This is a feature output");
 
+			Console.WriteLine('bugfix');
             Console.WriteLine("feature");
             Console.WriteLine("main");
         }
