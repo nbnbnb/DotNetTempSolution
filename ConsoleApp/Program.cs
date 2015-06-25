@@ -35,7 +35,7 @@ namespace ConsoleApp
         #region Demo
         private static void Demo()
         {
-
+            Console.WriteLine("main");
         }
         #endregion
     }
