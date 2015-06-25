@@ -35,7 +35,8 @@ namespace ConsoleApp
         #region Demo
         private static void Demo()
         {
-            Console.WriteLine("feature");
+			Console.WriteLine("main");
+			Console.WriteLine("feature");
         }
         #endregion
     }
