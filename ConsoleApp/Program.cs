@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace ConsoleApp
 {
@@ -28,16 +29,14 @@ namespace ConsoleApp
         private static void Temp()
         {
             //ExpressionTree.Start();
-            DynamicQueryFeatures.MiscDemo();
-            //Demo();
+            //DynamicQueryFeatures.MiscDemo();
+            Demo();
         }
 
         #region Demo
         private static void Demo()
         {
-			Console.WriteLine("main");
-			Console.WriteLine("feature");
-			Console.WriteLine("bugfix");
+            Console.WriteLine(DateTime.Now.ToString());
         }
         #endregion
     }
