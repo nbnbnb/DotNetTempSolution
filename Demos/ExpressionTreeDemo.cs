@@ -7,9 +7,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp.Demos
+namespace Demos
 {
-    public class ExpressionTree
+    public class ExpressionTreeDemo
     {
         public static void Start()
         {
@@ -86,13 +86,13 @@ namespace ConsoleApp.Demos
                 );
 
             BlockExpression block = Expression.Block(
-                // 声明代码块中要使用的变量
-                // 注意，这个不是参数，而是 loop 语句中的局部变量
-                // 参数在 Expression.Lambda 方法时指定
+                    // 声明代码块中要使用的变量
+                    // 注意，这个不是参数，而是 loop 语句中的局部变量
+                    // 参数在 Expression.Lambda 方法时指定
                     new[] { result },
 
                     // 下面的为表达式语句
-                // 给变量赋值
+                    // 给变量赋值
                     Expression.Assign(result, Expression.Constant(1)),
 
                     // 定义一个循环语句
@@ -258,65 +258,65 @@ namespace ConsoleApp.Demos
             var getPrimes =
                 // Func<int,List<int>> getPrimes
                 Expression.Lambda<Func<int, List<int>>>(
-                // {
+                    // {
                     Expression.Block(
-                // List<int> res;
+                        // List<int> res;
                         new[] { res },
-                // res=new List<int>;
+                        // res=new List<int>;
                         Expression.Assign(
                             res,
                             Expression.New(typeof(List<int>))
                         ),
-                // {
+                        // {
                         Expression.Block(
-                // int n
+                            // int n
                             new[] { n },
-                // n=2
+                            // n=2
                             Expression.Assign(
                                 n,
                                 Expression.Constant(2)
                             ),
-                // while(True)
+                            // while(True)
                             Expression.Loop(
-                // {
+                                // {
                                 Expression.Block(
-                // if
+                                    // if
                                     Expression.IfThen(
-                // (!
+                                        // (!
                                         Expression.Not(
-                // (n<=to)
+                                            // (n<=to)
                                             Expression.LessThanOrEqual(
                                                 n,
                                                 to
                                             )
                                         ),
-                // break
+                                        // break
                                         Expression.Break(breakOuter)
                                     ),
                                     Expression.Block(
-                // bool found;
+                                        // bool found;
                                         new[] { found },
-                // found=false;
+                                        // found=false;
                                         Expression.Assign(
                                             found,
                                             Expression.Constant(false)
                                         ),
-                // {
+                                        // {
                                         Expression.Block(
-                // int d;
+                                            // int d;
                                             new[] { d },
                                             Expression.Assign(
                                                 d,
                                                 Expression.Constant(2)
                                             ),
                                             Expression.Loop(
-                // {
+                                                // {
                                                 Expression.Block(
-                // if
+                                                    // if
                                                     Expression.IfThen(
-                // (!
+                                                        // (!
                                                         Expression.Not(
-                // d<=Math.Sqrt(n)
+                                                            // d<=Math.Sqrt(n)
                                                             Expression.LessThanOrEqual(
                                                                 d,
                                                                 Expression.Convert(
@@ -332,11 +332,11 @@ namespace ConsoleApp.Demos
                                                                 )
                                                             )
                                                         ),
-                // break
+                                                       // break
                                                        Expression.Break(breakInner)
                                                     ),
                                                     Expression.Block(
-                // if(n%d==0)
+                                                        // if(n%d==0)
                                                         Expression.IfThen(
                                                             Expression.Equal(
                                                                 Expression.Modulo(
@@ -346,24 +346,24 @@ namespace ConsoleApp.Demos
                                                                 Expression.Constant(0)
                                                             ),
                                                             Expression.Block(
-                // found=true;
+                                                                // found=true;
                                                                 Expression.Assign(
                                                                     found,
                                                                     Expression.Constant(true)
                                                                 ),
-                // break
+                                                                // break
                                                                 Expression.Break(breakInner)
                                                             )
                                                         )
                                                     ),
-                // d++
+                                                    // d++
                                                     Expression.PostIncrementAssign(d)
                                                 ),
                                                 breakInner
                                             )
                                         ),
                                         Expression.IfThen(
-                // (!found)
+                                            // (!found)
                                             Expression.Not(found),
                                             Expression.Call(
                                                 res,
@@ -372,7 +372,7 @@ namespace ConsoleApp.Demos
                                             )
                                         )
                                     ),
-                // n++
+                                    // n++
                                     Expression.PostIncrementAssign(n)
                                 ),
                                 breakOuter
@@ -402,11 +402,11 @@ namespace ConsoleApp.Demos
             var getPrimes =
                 // Func<int, List<int>> getPrimes =
                 Expression.Lambda<Func<int, List<int>>>(
-                // {
+                    // {
                     Expression.Block(
-                // List<int> res;
+                        // List<int> res;
                         new[] { res },
-                // res = new List<int>();
+                        // res = new List<int>();
                         Expression.Assign(
                             res,
                             Expression.New(typeof(List<int>))

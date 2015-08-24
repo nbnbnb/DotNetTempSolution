@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Dynamic;
 
-namespace ConsoleApp.Demos
+namespace Demos
 {
-    public static class DynamicQueryFeatures
+    public static class DynamicQueryDemo
     {
         /// <summary>
         /// 使用 ParseLambda 方法创建表达式树
