@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ConsoleApp</RootNamespace>
     <AssemblyName>ConsoleApp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -112,6 +113,10 @@
     <ProjectReference Include="..\CommonLib\CommonLib.csproj">
       <Project>{56aa287e-1a73-449b-9c10-6791b2a9d55b}</Project>
       <Name>CommonLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Demos\Demos.csproj">
+      <Project>{3c75ca30-7f91-42e2-8933-8e1675826d93}</Project>
+      <Name>Demos</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

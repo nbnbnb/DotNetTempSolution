@@ -11,16 +11,11 @@ namespace Demos
 {
     public class ExpressionTreeDemo
     {
-        public static void Start()
-        {
-            Demo08();
-        }
-
         /// <summary>
         /// 通过 lambda 创建表达式树
         /// 基本语句
         /// </summary>
-        private static void Demo01()
+        public static void Demo01()
         {
             Expression<Func<int, bool>> lambda = num => num < 5;
 
@@ -40,12 +35,13 @@ namespace Demos
         /// Expression.Constant
         /// Expression.MakeBinary
         /// </summary>
-        private static void Demo02()
+        public static void Demo02()
         {
             ParameterExpression num = Expression.Parameter(typeof(int), "num");
             ConstantExpression five = Expression.Constant(5, typeof(int));
             BinaryExpression lessThan = Expression.MakeBinary(ExpressionType.LessThan, num, five);
 
+            // lambda: num => num<5
             Expression<Func<int, bool>> lambda = Expression.Lambda<Func<int, bool>>(lessThan, num);
 
             Func<int, bool> func = lambda.Compile();
@@ -69,12 +65,12 @@ namespace Demos
         /// Expression.PostDecrementAssign
         /// Expression.Break
         /// </summary>
-        private static void Demo03()
+        public static void Demo03()
         {
             ParameterExpression value = Expression.Parameter(typeof(int), "value");
             ParameterExpression result = Expression.Parameter(typeof(int), "result");
 
-            // 这个用于设置循环体中用于中断的目标
+            // 用于设置循环体中中断的目标
             // 指定跳转到标签时传递的值的类型
             // 这个类型同时也指定了 lambda 的返回值
             LabelTarget label = Expression.Label(typeof(int));
@@ -85,22 +81,33 @@ namespace Demos
                     Expression.Break(label, result) // if false 跳转到指定的标签，同时将结果值传递给标签
                 );
 
+            /*
+            function (value){
+                // Block Begin
+                result = 1;
+                while (value > 1)
+                {
+                    result *= value--;
+                }
+                // Block End
+            }
+            **/
+
             BlockExpression block = Expression.Block(
-                    // 声明代码块中要使用的变量
-                    // 注意，这个不是参数，而是 loop 语句中的局部变量
-                    // 参数在 Expression.Lambda 方法时指定
+                    // 在 block 内部使用的变量
                     new[] { result },
 
-                    // 下面的为表达式语句
+                    // 下面的表达式语句
                     // 给变量赋值
                     Expression.Assign(result, Expression.Constant(1)),
 
                     // 定义一个循环语句
+                    // loopExpression 将会使用两个参数，一个是 result，另一个是 value
+                    // result 在 block 块中使用，value 是通过函数参数传递
                     Expression.Loop(loopExpression, label)
                 );
 
-            // 指定表达式语句 bloac
-            // 和参数 value
+            // 指定表达式语句 block 和传递参数 value
             int factorial = Expression.Lambda<Func<int, int>>(block, value).Compile()(6);
 
             Console.WriteLine(factorial);
@@ -109,12 +116,12 @@ namespace Demos
         /// <summary>
         /// 构造 for 语句块
         /// </summary>
-        private static void Demo04()
+        public static void Demo04()
         {
             //设置语句原型
-            //for (int i = 0; i < 10; i++)
+            //for (int i = 5; i >= 0;)
             //{
-            //    Console.WriteLine(i);
+            //    Console.WriteLine(i--);
             //}
 
             MethodInfo cw = typeof(Console).GetMethod("WriteLine", new Type[] { typeof(int) });
@@ -124,9 +131,10 @@ namespace Demos
             LabelTarget label = Expression.Label();
 
             // 由于是静态方法，所以传递为 null
-            Expression writeLine = Expression.Call(null, cw, i);
-            Expression decrementII = Expression.PostDecrementAssign(i); // 对 i 递减，并赋值
+            MethodCallExpression writeLine = Expression.Call(null, cw, i);
+            UnaryExpression decrementII = Expression.PostDecrementAssign(i); // --i;
 
+            // Console.WriteLine(--i);
             BlockExpression blockWrite = Expression.Block(writeLine, decrementII);
 
             // 此处在条件判断中添加了 Block 块
@@ -141,14 +149,14 @@ namespace Demos
             // 将 Loop 放到 Block 中
             BlockExpression forBlock = Expression.Block(loop);
 
-            // 在 for 循环中使用的变量，从此次传递进去
+            // 在 for 循环中使用的变量，从此处传递进去
             Expression.Lambda<Action<int>>(forBlock, i).Compile()(5);
         }
 
         /// <summary>
         /// 解析表达树
         /// </summary>
-        private static void Demo05()
+        public static void Demo05()
         {
             Expression<Func<int, bool>> lambda = num => num > 5;
 
@@ -164,7 +172,7 @@ namespace Demos
         /// <summary>
         /// 修改表达式树
         /// </summary>
-        private static void Demo06()
+        public static void Demo06()
         {
             // 表达式树是不可变的，这意味着不能直接修改表达式树
             // 若要更改表达式树，必须创建现有表达式树的一个副本，并在创建副本的过程中执行所需更改
@@ -182,7 +190,7 @@ namespace Demos
         /// <summary>
         /// 一个复杂的表达式生成实例
         /// </summary>
-        private static void Demo07()
+        public static void Demo07()
         {
             // 原型
             /*
@@ -387,7 +395,7 @@ namespace Demos
         /// <summary>
         /// 一个 for(int i=0;i<100;i++) 的例子
         /// </summary>
-        private static void Demo08()
+        public static void Demo08()
         {
             // 这是传递给 lambda 的参数
             var to = Expression.Variable(typeof(int), "to");
