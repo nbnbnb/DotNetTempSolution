@@ -118,11 +118,13 @@ namespace Demos
         /// </summary>
         public static void Demo04()
         {
-            //设置语句原型
-            //for (int i = 5; i >= 0;)
-            //{
-            //    Console.WriteLine(i--);
-            //}
+            // 语句原型
+            // int i=5
+            // while(i >= 0)
+            // {
+            //    Console.WriteLine(i);
+            //    i--;  
+            // }
 
             MethodInfo cw = typeof(Console).GetMethod("WriteLine", new Type[] { typeof(int) });
             ParameterExpression i = Expression.Parameter(typeof(int), "i");
@@ -132,22 +134,21 @@ namespace Demos
 
             // 由于是静态方法，所以传递为 null
             MethodCallExpression writeLine = Expression.Call(null, cw, i);
-            UnaryExpression decrementII = Expression.PostDecrementAssign(i); // --i;
+            UnaryExpression decrement = Expression.PostDecrementAssign(i); // i--;
 
-            // Console.WriteLine(--i);
-            BlockExpression blockWrite = Expression.Block(writeLine, decrementII);
+            BlockExpression blockWrite = Expression.Block(writeLine, decrement); // 两条语句
 
             // 此处在条件判断中添加了 Block 块
             Expression condition = Expression.IfThenElse(
-                Expression.GreaterThanOrEqual(i, Expression.Constant(0)),
-                blockWrite,  // 执行方法
-                Expression.Break(label));
+                Expression.GreaterThanOrEqual(i, Expression.Constant(0)),  // 前置条件
+                blockWrite,  // 满足条件时，执行的语句
+                Expression.Break(label)); // 不满足条件，跳出循环
 
             // 将 Label 传递到 Loop 中
             Expression loop = Expression.Loop(condition, label);
 
             // 将 Loop 放到 Block 中
-            BlockExpression forBlock = Expression.Block(loop);
+            BlockExpression forBlock = Expression.Block(loop);  // Loop 最终是会放在 Block 中的
 
             // 在 for 循环中使用的变量，从此处传递进去
             Expression.Lambda<Action<int>>(forBlock, i).Compile()(5);
@@ -182,7 +183,7 @@ namespace Demos
             Console.WriteLine(expr); // name => ((name.Length > 10) && name.StartsWith("G"))
 
             AndAlsoModifier treeModifier = new AndAlsoModifier();
-            Expression modifiedExpr = treeModifier.Modify((Expression)expr);
+            Expression modifiedExpr = treeModifier.Modify(expr);
 
             Console.WriteLine(modifiedExpr); // name => ((name.Length > 10) || name.StartsWith("G"))
         }

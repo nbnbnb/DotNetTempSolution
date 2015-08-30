@@ -1,5 +1,7 @@
-﻿using Demos;
+﻿using CommonLib.Concrete;
+using Demos;
 using System;
+using System.Linq.Expressions;
 
 namespace ConsoleApp
 {
@@ -23,7 +25,18 @@ namespace ConsoleApp
         #region Demo
         private static void Demo()
         {
-            ExpressionTreeDemo.Demo04();
+            Expression<Func<UserInfo, bool>> expr = name => name.UserAge > 10 && 'A' == name.UserType;
+            Console.WriteLine(expr); 
+            CharToStringModifier treeModifier = new CharToStringModifier();
+            Expression modifiedExpr = treeModifier.Modify(expr);
+            Console.WriteLine(modifiedExpr); 
+        }
+
+        private class UserInfo
+        {
+            public char UserType { get; set; }
+
+            public short UserAge { get; set; }
         }
         #endregion
     }
