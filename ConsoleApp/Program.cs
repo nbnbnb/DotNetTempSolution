@@ -25,19 +25,12 @@ namespace ConsoleApp
         #region Demo
         private static void Demo()
         {
-            Expression<Func<UserInfo, bool>> expr = name => name.UserAge > 10 && 'A' == name.UserType;
-            Console.WriteLine(expr); 
-            CharToStringModifier treeModifier = new CharToStringModifier();
-            Expression modifiedExpr = treeModifier.Modify(expr);
-            Console.WriteLine(modifiedExpr); 
+            for(UInt32 bit = 1; bit != 0; bit <<= 1)
+            {
+                Console.WriteLine(bit);
+            }
         }
 
-        private class UserInfo
-        {
-            public char UserType { get; set; }
-
-            public short UserAge { get; set; }
-        }
         #endregion
     }
 
