@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CommonLib</RootNamespace>
     <AssemblyName>CommonLib</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -86,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Concrete\AddModifyVisitor.cs" />
+    <Compile Include="Concrete\CharToStringModifier.cs" />
     <Compile Include="Concrete\Dynamic.cs" />
     <Compile Include="Concrete\DynamicMethodExecutor.cs" />
     <Compile Include="Concrete\DynamicMethodExecutorCache.cs" />
@@ -93,6 +95,8 @@
     <Compile Include="Concrete\DynamicPropertyAccessorCache.cs" />
     <Compile Include="Concrete\ObjectExtension.cs" />
     <Compile Include="Entities\Batch.cs" />
+    <Compile Include="Entities\OrderType.cs" />
+    <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Helper\CycleCalcHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -384,7 +384,5 @@ namespace Demos
         {
             public IEnumerable<Person> Persons { get; set; }
         }
-
-        public static LambdaExpression exp { get; set; }
     }
 }
