@@ -36,18 +36,7 @@ namespace ConsoleApp
         #region Demo
         private static void Demo()
         {
-            HttpClient client = new HttpClient();
-            string url = "http://localhost:9636/Hello.xml";  // IIS
 
-            string data = @"<?xml version=""1.0"" encoding=""utf-8""?><HelloRequest xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns=""http://soa.ctrip.com/thingstodo/order/settlementopenapi/v1""><OrderId>123456</OrderId><UnitQuantity>4</UnitQuantity><EndDate>2015-08-04T17:56:43.5959493+08:00</EndDate><Price>99.99</Price></HelloRequest>";
-            byte[] buf = Encoding.UTF8.GetBytes(data);
-            StringContent conent = new StringContent(data);
-            Task<HttpResponseMessage> message = client.PostAsync(url, conent);
-            message.Wait();
-            HttpResponseMessage result = message.Result;
-            Task<String> btking = result.Content.ReadAsStringAsync();
-            btking.Wait();
-            Console.WriteLine(btking.Result);
         }
         #endregion
     }
