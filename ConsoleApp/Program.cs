@@ -1,7 +1,14 @@
 ﻿using CommonLib.Concrete;
-using Demos;
 using System;
-using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.IO.Pipes;
+using System.Text;
+using System.Threading.Tasks;
+using System.Linq;
+using CommonLib.Extensions;
+using System.Net;
+using System.Threading;
+using Demos;
 
 namespace ConsoleApp
 {
@@ -17,17 +24,16 @@ namespace ConsoleApp
 
         private static void Temp()
         {
-            //ExpressionTree.Start();
-            //DynamicQueryFeatures.MiscDemo();
             Demo();
         }
 
         #region Demo
-        private static void Demo()
+        private static  void Demo()
         {
-
+            TaskDemo.EventAwaiterDemo();
         }
         #endregion
+
     }
 
 }
