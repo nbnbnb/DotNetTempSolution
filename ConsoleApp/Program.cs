@@ -9,6 +9,8 @@ using CommonLib.Extensions;
 using System.Net;
 using System.Threading;
 using Demos;
+using System.Runtime.CompilerServices;
+using System.ComponentModel;
 
 namespace ConsoleApp
 {
@@ -28,9 +30,9 @@ namespace ConsoleApp
         }
 
         #region Demo
-        private static  void Demo()
+        private static void Demo()
         {
-            TaskDemo.EventAwaiterDemo();
+
         }
         #endregion
 
