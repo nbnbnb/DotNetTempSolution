@@ -124,5 +124,39 @@ namespace CommonLib.Extensions
 
             await originTask;
         }
+
+        public static IEnumerable<Task<T>> InCompletionOrder<T>(this IEnumerable<Task<T>> source)
+        {
+            var inputs = source.ToList();
+            var boxes = inputs.Select(m => new TaskCompletionSource<T>()).ToList();
+
+            int currentIndex = -1;
+            foreach (var task in inputs)
+            {
+                task.ContinueWith(completed =>
+                {
+                    var nextBox = boxes[Interlocked.Increment(ref currentIndex)];
+                    PropagateResult(completed, nextBox);
+                }, TaskContinuationOptions.ExecuteSynchronously);
+            }
+
+            return boxes.Select(m => m.Task);
+        }
+
+        private static void PropagateResult<T>(Task<T> completed, TaskCompletionSource<T> nextBox)
+        {
+            if (completed.IsCanceled)
+            {
+                nextBox.SetCanceled();
+            }
+            else if (completed.IsFaulted)
+            {
+                nextBox.SetException(completed.Exception);
+            }
+            else
+            {
+                nextBox.SetResult(completed.Result);
+            }
+        }
     }
 }
