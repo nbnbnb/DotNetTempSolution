@@ -100,6 +100,7 @@
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Helper\CycleCalcHelper.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
+    <Compile Include="Helper\StaticMemberDynamicWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

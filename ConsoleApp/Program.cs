@@ -11,9 +11,18 @@ using System.Threading;
 using Demos;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
+using System.Collections;
+using System.Xml.Linq;
+using System.Dynamic;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.IO;
+using Newtonsoft.Json;
+using MVC5App.Models;
 
 namespace ConsoleApp
 {
+
     class Program
     {
         static void Main(string[] args)
@@ -32,10 +41,10 @@ namespace ConsoleApp
         #region Demo
         private static void Demo()
         {
-
+            string js = File.ReadAllText(@"H:\trigger.js");
+            var gg= JsonConvert.DeserializeObject<TriggerJSModel>(js);
+            Console.WriteLine(gg==null);
         }
         #endregion
-
     }
-
 }

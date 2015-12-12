@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommonLib.Extensions;
-
 namespace BasicUnitTest
 {
     [TestClass]
@@ -35,7 +33,7 @@ namespace BasicUnitTest
 
             Assert.IsTrue(ordered.AreEqual(1));
             Assert.IsTrue(payed.AreEqual(4));
-            Assert.IsTrue(processed.AreEqual(8));
+            Assert.IsTrue(processed.AreEqual(16));
         }
     }
 
