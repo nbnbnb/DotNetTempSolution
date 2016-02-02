@@ -40,17 +40,8 @@ namespace ConsoleApp
         #region Demo
         private static void Demo()
         {
+
         }
         #endregion
-    }
-
-    public class ABC
-    {
-        public string A { get; set; }
-
-        public string GetA()
-        {
-            return "AAA";
-        }
     }
 }
