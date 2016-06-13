@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CommonLib.Concrete
@@ -11,6 +12,7 @@ namespace CommonLib.Concrete
         private Dictionary<Type, Dictionary<String, DynamicMethodExecutor>> _cache =
             new Dictionary<Type, Dictionary<String, DynamicMethodExecutor>>();
         private object _lock = new object();
+        private bool _flag = false;
 
         public DynamicMethodExecutor GetExecutor(Type type, string methodName)
         {
@@ -24,8 +26,10 @@ namespace CommonLib.Concrete
                 }
             }
 
-            lock (_lock)
+            try
             {
+                Monitor.TryEnter(_lock, ref _flag);
+
                 if (!_cache.ContainsKey(type))
                 {
                     _cache[type] = new Dictionary<string, DynamicMethodExecutor>();
@@ -39,7 +43,16 @@ namespace CommonLib.Concrete
                 }
                 else
                 {
-                    return _cache[type][methodName];  
+                    return _cache[type][methodName];
+                }
+
+            }
+            finally
+            {
+                if (_flag)
+                {
+                    _flag = false;
+                    Monitor.Exit(_lock);
                 }
             }
 
