@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonLib.Concrete;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace CommonLib.Extensions
 {
     public static class TaskExtension
     {
+        #region Log
         public enum TaskLogLevel { None, Pending };
 
         public static TaskLogLevel LogLevel { get; set; }
@@ -158,5 +160,16 @@ namespace CommonLib.Extensions
                 nextBox.SetResult(completed.Result);
             }
         }
+
+        #endregion
+
+        #region AggregateException
+        public static AggregatedExceptionAwaitale WithAggreagetdExceptions(this Task task)
+        {
+            return new AggregatedExceptionAwaitale(task);
+        }
+        #endregion
     }
+
+
 }

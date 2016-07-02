@@ -35,13 +35,38 @@ namespace ConsoleApp
         private static void Temp()
         {
             Demo();
+
+
         }
 
         #region Demo
-        private static void Demo()
+        private async static void Demo()
         {
-
+            await CatchMultipleExceptions();
         }
+
+        private async static Task CatchMultipleExceptions()
+        {
+            Task task1 = Task.Run(() => { throw new Exception("Message 1"); });
+            Task task2 = Task.Run(() => { throw new Exception("Message 2"); });
+
+            try
+            {
+                // 由于 await 默认只会抛出 AggregateException 中的第一个异常
+                // 所以此处对于多异常的场景进行了扩展
+                // 在内部的方法中，使用了 Task.Wait()
+                // 所以将直接抛出 AggregateException 异常，里面包含了所有的错误信息
+                await Task.WhenAll(task1, task2).WithAggreagetdExceptions();
+            }
+            catch (AggregateException ex)
+            {
+                Console.WriteLine("Caught {0} exceptions {1}",
+                    ex.InnerExceptions.Count,
+                    string.Join(", ", ex.InnerExceptions.Select(m => m.Message)));
+            }
+        }
+
         #endregion
     }
+
 }
