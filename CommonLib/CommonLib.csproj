@@ -98,6 +98,7 @@
     <Compile Include="Entities\Batch.cs" />
     <Compile Include="Entities\OrderType.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Extensions\ObjectExtension.cs" />
     <Compile Include="Helper\CycleCalcHelper.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
     <Compile Include="Helper\StaticMemberDynamicWrapper.cs" />
