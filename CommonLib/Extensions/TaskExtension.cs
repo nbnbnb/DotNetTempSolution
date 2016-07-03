@@ -12,7 +12,6 @@ namespace CommonLib.Extensions
 {
     public static class TaskExtension
     {
-        #region Log
         public enum TaskLogLevel { None, Pending };
 
         public static TaskLogLevel LogLevel { get; set; }
@@ -127,6 +126,12 @@ namespace CommonLib.Extensions
             await originTask;
         }
 
+        /// <summary>
+        /// 在全部完成时收集结果
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static IEnumerable<Task<T>> InCompletionOrder<T>(this IEnumerable<Task<T>> source)
         {
             var inputs = source.ToList();
@@ -147,6 +152,10 @@ namespace CommonLib.Extensions
 
         private static void PropagateResult<T>(Task<T> completed, TaskCompletionSource<T> nextBox)
         {
+            // 将已完成的 Task<T> 的结果传播到 TaskCompletionSource<T> 中
+            // 如果原始任务正常完成，则将值复制到 TaskCompletionSource<T> 中
+            // 如果产生错误，则可将异常复制到 TaskCompletionSource<T> 中
+
             if (completed.IsCanceled)
             {
                 nextBox.SetCanceled();
@@ -161,7 +170,6 @@ namespace CommonLib.Extensions
             }
         }
 
-        #endregion
 
         #region AggregateException
         public static AggregatedExceptionAwaitale WithAggreagetdExceptions(this Task task)
@@ -169,6 +177,8 @@ namespace CommonLib.Extensions
             return new AggregatedExceptionAwaitale(task);
         }
         #endregion
+
+
     }
 
 
