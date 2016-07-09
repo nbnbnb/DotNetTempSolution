@@ -82,6 +82,7 @@ namespace CommonLib.Extensions
         public static async Task<TResult> WithCancellation<TResult>(this Task<TResult> originTask,
             CancellationToken ct)
         {
+            /*
             // 创建在 CancellatinToken 被取消时完成的一个 Task
             var cancelTask = new TaskCompletionSource<TResult>();
             // 一旦 CancellationToken 被取消，就会执行 Register 的回调
@@ -99,6 +100,27 @@ namespace CommonLib.Extensions
 
                 return any.Result;
             }
+            */
+
+            // 创建在 CancellatinToken 被取消时完成的一个 Task
+            var cancelTask = new TaskCompletionSource<Void>();
+            // 一旦 CancellationToken 被取消，就会执行 Register 的回调
+            using (ct.Register(t => ((TaskCompletionSource<Void>)t).TrySetResult(new Void()), cancelTask))
+            {
+                //  二取一
+                // 是正常任务完成，还是取消任务完成（执行了 Register 回调）
+                Task any = await Task.WhenAny(originTask, cancelTask.Task);
+
+                // 如果取消了，就抛出 OperationCanceledException
+                if (any == cancelTask.Task)
+                {
+                    ct.ThrowIfCancellationRequested();
+                }
+
+                // 此时的 originTask 其实 IsComplete=true，直接返回其结果
+                return await originTask;
+            }
+
         }
 
         /// <summary>
