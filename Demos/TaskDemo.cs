@@ -51,11 +51,14 @@ namespace Demos
             }
         }
 
+        /// <summary>
+        /// 创建自定义的 Awaiter
+        /// </summary>
         public static void EventAwaiterDemo()
         {
             ShowExceptions();
 
-            for (Int32 x = 0; x < 3; x++)
+            for (Int32 x = 0; x < 1; x++)
             {
                 try
                 {
@@ -73,22 +76,22 @@ namespace Demos
             }
         }
 
-        /// <summary>
-        /// 不会阻塞调用线程
-        /// </summary>
         private static async void ShowExceptions()
         {
             // 实例化一个自定义的 Awaiter
-            // 只要满足 await 的要求，就可以等待它
             var eventAwaiter = new EventAwaiter<FirstChanceExceptionEventArgs>();
 
+            // 捕获应用程序池中未处理的异常
+            // 存储在内部的队列中
             AppDomain.CurrentDomain.FirstChanceException += eventAwaiter.EventRaised;
 
             // 可以无限 ContinueWith
             while (true)
             {
+                // 一旦捕获到任何异常，await 获取异常对象（从队列中 Pop 出来）
                 FirstChanceExceptionEventArgs arg = await eventAwaiter;  // awaiter 的 Result
-                // 下面是 continuation
+
+                // 下面的代码将会封装为 Continue
                 Console.WriteLine("AppDomain exception: {0}", arg.Exception.GetType());
             }
         }

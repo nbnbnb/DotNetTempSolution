@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace CommonLib.Concrete
 {
+    /// <summary>
+    /// 创建自定义 Awaiter 时，需要实现 INotifyCompletion 接口
+    /// </summary>
+    /// <typeparam name="TEventArgs"></typeparam>
     public class EventAwaiter<TEventArgs> : INotifyCompletion
     {
         private ConcurrentQueue<TEventArgs> m_events = new ConcurrentQueue<TEventArgs>();
@@ -23,7 +27,10 @@ namespace CommonLib.Concrete
         /// <returns></returns>
         public EventAwaiter<TEventArgs> GetAwaiter()
         {
-            // 状态机首先调用这个来获得 awaiter，我们自己返回自己
+
+            Console.WriteLine(0);
+            // 状态机首先调用这个来获得 awaiter，直接返回自己
+            // 因为它已经实现了 IsCompleted、OnCompleted、GetResult 这些必须方法
             return this;
         }
 
@@ -43,6 +50,8 @@ namespace CommonLib.Concrete
         /// <summary>
         /// 状态机告诉我们以后要调用什么方法，我们把它保存起来
         /// 这是下一次的回调
+        /// 将其保存到 Action 变量中
+        /// 下一步的操作就是 await 后续的代码
         /// </summary>
         /// <param name="continuation"></param>
         public void OnCompleted(Action continuation)
@@ -52,7 +61,9 @@ namespace CommonLib.Concrete
         }
 
         /// <summary>
-        /// 状态机查询结果，这是 awaite 操作符的结果
+        /// 状态机查询结果，await 等待的就是这个结果
+        /// 将队列清空后，IsComplete 就会返回 False
+        /// 此时将会调用 OnCompleted 执行下一次 MoveNext
         /// </summary>
         /// <returns></returns>
         public TEventArgs GetResult()
@@ -72,9 +83,16 @@ namespace CommonLib.Concrete
         /// <param name="eventArgs"></param>
         public void EventRaised(Object sender, TEventArgs eventArgs)
         {
+            Console.WriteLine(3);
             // 存储事件参数
+            // 此时，IsComplete 就会返回 True
+            // 然后 GetResult 返回就行执行
+            // 当队列清空之后，IsComplete 就为 False
+            // 
             m_events.Enqueue(eventArgs);
-
+            // 此处使用了不为空的简化语法
+            // 执行完了一个 ContinueWith，然后将其设置为 null
+            // Invoke 的执行，内部执行了一次状态机的 MoveNext
             Interlocked.Exchange(ref m_continuation, null)?.Invoke();
         }
     }

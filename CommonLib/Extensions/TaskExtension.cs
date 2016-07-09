@@ -80,7 +80,7 @@ namespace CommonLib.Extensions
         public static async Task<TResult> WithCancellation<TResult>(this Task<TResult> originTask,
             CancellationToken ct)
         {
-            return await WithCancellation(originTask, ct);
+            return await (Task<TResult>)WithCancellation((Task)originTask, ct);
         }
 
         /// <summary>
@@ -107,6 +107,8 @@ namespace CommonLib.Extensions
                     ct.ThrowIfCancellationRequested();
                 }
             }
+
+            await originTask;
         }
 
         #endregion
