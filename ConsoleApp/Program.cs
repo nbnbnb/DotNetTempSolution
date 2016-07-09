@@ -38,13 +38,17 @@ namespace ConsoleApp
             Demo();
         }
 
-        #region Demo
-        private async static void Demo()
+        public static void SayHello()
         {
-
+            Console.WriteLine("Hello");
         }
 
 
+        #region Demo
+        private static void Demo()
+        {
+
+        }
 
         #endregion
     }

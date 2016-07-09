@@ -72,16 +72,10 @@ namespace CommonLib.Concrete
         /// <param name="eventArgs"></param>
         public void EventRaised(Object sender, TEventArgs eventArgs)
         {
-            Console.WriteLine(3);
             // 存储事件参数
             m_events.Enqueue(eventArgs);
 
-            Action continuation = Interlocked.Exchange(ref m_continuation, null);
-
-            if (continuation != null)
-            {
-                continuation();
-            }
+            Interlocked.Exchange(ref m_continuation, null)?.Invoke();
         }
     }
 }

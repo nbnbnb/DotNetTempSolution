@@ -103,6 +103,7 @@
     <Compile Include="Helper\CycleCalcHelper.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
     <Compile Include="Helper\StaticMemberDynamicWrapper.cs" />
+    <Compile Include="Helper\TaskLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
