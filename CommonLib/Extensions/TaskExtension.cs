@@ -71,6 +71,8 @@ namespace CommonLib.Extensions
 
         /// <summary>
         /// 给任务附加取消
+        /// 失败时抛出 OperationCanceledException 异常
+        /// 调用方可以捕获这个异常进行相应的处理
         /// 泛型
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
@@ -80,11 +82,29 @@ namespace CommonLib.Extensions
         public static async Task<TResult> WithCancellation<TResult>(this Task<TResult> originTask,
             CancellationToken ct)
         {
-            return await (Task<TResult>)WithCancellation((Task)originTask, ct);
+            // 创建在 CancellatinToken 被取消时完成的一个 Task
+            var cancelTask = new TaskCompletionSource<TResult>();
+            // 一旦 CancellationToken 被取消，就会执行 Register 的回调
+            using (ct.Register(t => ((TaskCompletionSource<TResult>)t).TrySetResult(default(TResult)), cancelTask))
+            {
+                //  二取一
+                // 是正常任务完成，还是取消任务完成（执行了 Register 回调）
+                Task<TResult> any = await Task.WhenAny(originTask, cancelTask.Task);
+
+                // 如果取消了，就抛出 OperationCanceledException
+                if (any == cancelTask.Task)
+                {
+                    ct.ThrowIfCancellationRequested();
+                }
+
+                return any.Result;
+            }
         }
 
         /// <summary>
         /// 给任务附加取消
+        /// 失败时抛出 OperationCanceledException 异常
+        /// 调用方可以捕获这个异常进行相应的处理
         /// 非泛型
         /// </summary>
         /// <param name="originTask"></param>
@@ -107,11 +127,18 @@ namespace CommonLib.Extensions
                     ct.ThrowIfCancellationRequested();
                 }
             }
-
-            await originTask;
         }
 
         #endregion
 
+        #region 消除调用异步方法，忘记添加 await 操作符时的警告
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]   // 造成编译器优化调用 
+        public static void NoWarning(this Task task)
+        {
+            /* 这里没有代码 */
+        }
+
+        #endregion
     }
 }

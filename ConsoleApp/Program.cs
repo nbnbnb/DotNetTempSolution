@@ -38,45 +38,9 @@ namespace ConsoleApp
             Demo();
         }
 
-        public static void SayHello()
-        {
-            Console.WriteLine("Hello");
-        }
-
-
         #region Demo
-        private static void Demo()
+        private async static void Demo()
         {
-            TaskDemo.EventAwaiterDemo();
-        }
-
-        private static async Task<String> AwaitWebClient(Uri uri)
-        {
-            var wc = new WebClient();
-            var tcs = new TaskCompletionSource<String>();
-
-            wc.DownloadStringCompleted += (s, e) =>
-              {
-                  // 设置任务的几种状态
-                  if (e.Cancelled)
-                  {
-                      tcs.SetCanceled();
-                  }
-                  else if (e.Error != null)
-                  {
-                      tcs.SetException(e.Error);
-                  }
-                  else
-                  {
-                      tcs.SetResult(e.Result);
-                  }
-              };
-
-            // 启动异步任务
-            wc.DownloadStringAsync(uri);
-
-            // 等待 TaskCompletionSource 的 Task
-            return await tcs.Task;
         }
 
         #endregion

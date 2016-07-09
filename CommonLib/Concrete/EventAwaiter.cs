@@ -37,6 +37,8 @@ namespace CommonLib.Concrete
         /// <summary>
         /// 告诉状态机是否发生了任何事情
         /// 执行 OnCompleted
+        /// 如果队列里面的记录大于0，表现已完成
+        /// 将会执行 OnComplete
         /// </summary>
         public Boolean IsCompleted
         {
@@ -52,6 +54,9 @@ namespace CommonLib.Concrete
         /// 这是下一次的回调
         /// 将其保存到 Action 变量中
         /// 下一步的操作就是 await 后续的代码
+        /// OnCompleted 执行后，将会调用 GetResult 返回结果
+        /// 当 continuation 执行的时候，就是一次 MoveNext
+        /// 关键就是控制 continuation 的执行时机
         /// </summary>
         /// <param name="continuation"></param>
         public void OnCompleted(Action continuation)
