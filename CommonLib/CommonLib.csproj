@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Concrete\AddModifyVisitor.cs" />
+    <Compile Include="Concrete\AsyncOneManyLock.cs" />
     <Compile Include="Concrete\CharToStringModifier.cs" />
     <Compile Include="Concrete\CustomAwait.cs" />
     <Compile Include="Concrete\Dynamic.cs" />
