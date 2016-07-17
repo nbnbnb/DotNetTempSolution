@@ -52,6 +52,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EFConsoleAppDBContext.cs" />
+    <Compile Include="Entity\Activity.cs" />
+    <Compile Include="Entity\Address.cs" />
+    <Compile Include="Entity\Box.cs" />
+    <Compile Include="Entity\Department.cs" />
+    <Compile Include="Entity\DepartmentNames.cs" />
+    <Compile Include="Entity\Destination.cs" />
+    <Compile Include="Entity\Hostel.cs" />
+    <Compile Include="Entity\InternetSpecial.cs" />
+    <Compile Include="Entity\Lodging.cs" />
+    <Compile Include="Entity\Measurement.cs" />
+    <Compile Include="Entity\Person.cs" />
+    <Compile Include="Entity\PersonInfo.cs" />
+    <Compile Include="Entity\PersonPhoto.cs" />
+    <Compile Include="Entity\Reservation.cs" />
+    <Compile Include="Entity\Resort.cs" />
+    <Compile Include="Entity\Trip.cs" />
+    <Compile Include="Entity\Water.cs" />
+    <Compile Include="Initializer\DropCreateDatabaseAlwaysWithSeedData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
