@@ -1,7 +1,21 @@
-﻿using CommonLib.Concrete;
-using Demos;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using System.Collections;
+using System.Linq;
+using System.Windows.Forms;
+using System.Globalization;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
+using System.Threading;
+using System.Runtime.ConstrainedExecution;
+using System.Runtime.Remoting;
+using System.Reflection;
+using System.IO;
 
 namespace ConsoleApp
 {
@@ -17,8 +31,6 @@ namespace ConsoleApp
 
         private static void Temp()
         {
-            //ExpressionTree.Start();
-            //DynamicQueryFeatures.MiscDemo();
             Demo();
         }
 
@@ -29,5 +41,4 @@ namespace ConsoleApp
         }
         #endregion
     }
-
 }
