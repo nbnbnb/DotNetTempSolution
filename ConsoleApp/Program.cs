@@ -16,6 +16,9 @@ using System.Runtime.ConstrainedExecution;
 using System.Runtime.Remoting;
 using System.Reflection;
 using System.IO;
+using System.Text;
+using System.Collections.Concurrent;
+using Demos;
 
 namespace ConsoleApp
 {
@@ -26,6 +29,7 @@ namespace ConsoleApp
             Console.WriteLine("Start.");
             Temp();
             Console.WriteLine("End.");
+
             Console.ReadKey();
         }
 
@@ -37,8 +41,9 @@ namespace ConsoleApp
         #region Demo
         private static void Demo()
         {
-
+            AOPDemo.PropertyGetAOP();
         }
         #endregion
     }
+
 }
