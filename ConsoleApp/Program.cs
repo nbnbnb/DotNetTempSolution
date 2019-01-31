@@ -35,15 +35,7 @@ namespace ConsoleApp
 
         private static void Temp()
         {
-            Demo();
-        }
 
-        #region Demo
-        private static void Demo()
-        {
-            AOPDemo.PropertyGetAOP();
         }
-        #endregion
     }
-
 }
