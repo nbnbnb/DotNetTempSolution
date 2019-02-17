@@ -160,3 +160,5 @@ $RECYCLE.BIN/
 
 # Nuget 目录
 packages/
+/.vs
+
